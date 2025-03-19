@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from tkinter import filedialog
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
+from PIL import Image, ImageTk
 
 from src.tools import excelFormat
 from tkinter import messagebox
@@ -48,7 +49,7 @@ def ex():
     para ir ajustando los valores de entrada y de salida.
     """
     canvas.place(x=0, y=0)
-    button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
+    button_image_1 = ImageTk.PhotoImage(Image.open(relative_to_assets("button_1.png")))
 
     button_1 = Button(
         image=button_image_1,
@@ -69,7 +70,7 @@ def ex():
     que se haya verificado que todos los datos y parametros 
     hayan sido introducidos de manera correcta
     """
-    button_image_2 = PhotoImage(file=relative_to_assets("button_2.png"))
+    button_image_2 = ImageTk.PhotoImage(Image.open(relative_to_assets("button_2.png")))
 
     button_2 = Button(
         image=button_image_2,
@@ -88,7 +89,7 @@ def ex():
     Boton UPLOAD:
     Este boton carga el archivo Excel asi como su ruta.
     """
-    button_image_3 = PhotoImage(file=relative_to_assets("button_3.png"))
+    button_image_3 = ImageTk.PhotoImage(Image.open(relative_to_assets("button_3.png")))
 
     button_3 = Button(
         image=button_image_3,
@@ -108,7 +109,7 @@ def ex():
     Boton DOWNLOAD:
     Este boton descarga el archivo Excel en su respectiva ruta.
     """
-    button_image_4 = PhotoImage(file=relative_to_assets("button_4.png"))
+    button_image_4 = ImageTk.PhotoImage(Image.open(relative_to_assets("button_4.png")))
 
     button_4 = Button(
         image=button_image_4,
