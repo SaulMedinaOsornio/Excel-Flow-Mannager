@@ -78,7 +78,7 @@ def extract_cuatrimestre_cursado(dataFrame):
     return int(parts[1])
 
 def extract_nivel_educativo(dataFrame):
-    cuatrimestre = extract_cuatrimestre(dataFrame, 13, 3)
+    cuatrimestre = extract_cuatrimestre(dataFrame, 12, 2)
     return int(cuatrimestre[(len(cuatrimestre)) - 1:])
 
 def extract_matriculas_and_calificaciones(dataFrame, start_row=20, matricula_column='B'):
@@ -127,12 +127,12 @@ def extract_grupo(dataFrame, fila, columna):
     return grupo
 
 def generate_codigo_periodo_escolar(dataFrame):
-    cuatrimestre = extract_cuatrimestre(dataFrame, 13, 3)
-    grupo = extract_grupo(dataFrame, 15, 3)
+    cuatrimestre = extract_cuatrimestre(dataFrame, 12, 2)
+    grupo = extract_grupo(dataFrame, 14, 2)
 
     anioCurso = cuatrimestre[0:4]
     periodo = int(grupo[4:5])
-    if (periodo >= 1 and periodo <= 6):
+    if periodo >= 1 and periodo <= 6:
         nivel_educativo = "lic"
     else:
         nivel_educativo = "ing"
@@ -149,9 +149,9 @@ def create_json(matriculas, cdef, materias, dataFrame):
     """
     data = {
         "general": {
-            "CUATRIMESTRE": extract_cuatrimestre(dataFrame, 13, 3),
-            "GRUPO": extract_grupo(dataFrame, 13, 3),
-            "CARRERA": extract_carrera(dataFrame, 11, 2),
+            "CUATRIMESTRE": extract_cuatrimestre(dataFrame, 12, 2),
+            "GRUPO": extract_grupo(dataFrame, 12, 2),
+            "CARRERA": extract_carrera(dataFrame, 10, 2),
             "CODIGO_PERIODO_ESCOLAR": generate_codigo_periodo_escolar(dataFrame),
             "FECHA_ASIGNACION": fecha_asignacion,
             "CUATRIMESTRE_CURSADO": extract_cuatrimestre_cursado(dataFrame),
