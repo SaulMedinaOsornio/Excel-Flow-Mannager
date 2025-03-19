@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 from PIL import Image, ImageTk
 
+from src.tools import generator
 from src.tools import excelFormat
 from tkinter import messagebox
 
@@ -76,7 +77,7 @@ def ex():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_2 clicked"),
+        command=lambda: generator.generate(),
         relief="flat"
     )
     button_2.place(
