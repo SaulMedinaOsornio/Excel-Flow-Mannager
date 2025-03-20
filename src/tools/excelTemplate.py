@@ -2,7 +2,7 @@ import pandas as pd
 from openpyxl.styles import PatternFill
 from openpyxl import load_workbook
 
-#Variables finales
+# Variables finales
 EVALUATION_TYPE = "ordinaria"
 excelNameFile = 'ConcentradosCal.xlsx'
 data = {
@@ -16,6 +16,7 @@ data = {
     'ClaveProfesor': [None],
     'Evaluación': [EVALUATION_TYPE]
 }
+
 
 def start():
     # Crear el DataFrame
@@ -36,6 +37,8 @@ def start():
     wb = load_workbook(excelNameFile)
     ws = wb.active
     return ws, wb
+
+
 def styleConfig(ws):
     # Definir el color amarillo
     yellow_fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
@@ -58,11 +61,14 @@ def styleConfig(ws):
                 pass
         # Ajustar el ancho de la columna
         adjusted_width = (max_length + 2)  # Añadir un pequeño margen
-        ws.column_dimensions[column_letter].width = adjusted_width 
+        ws.column_dimensions[column_letter].width = adjusted_width
+
+
 def close(wb):
     wb.save(excelNameFile)
     wb.close()
-    
+
+
 ws, wb = start()
 styleConfig(ws)
 close(wb)
