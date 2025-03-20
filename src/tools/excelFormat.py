@@ -14,7 +14,6 @@ json_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "o
 num_materias = 0
 fecha_asignacion = ""
 clave_materia = ""
-filename = ""
 set_rc = []
 
 
@@ -150,7 +149,7 @@ def create_json(matriculas, cdef, materias, dataFrame):
     data = {
         "general": {
             "CUATRIMESTRE": extract_cuatrimestre(dataFrame, 12, 2),
-            "GRUPO": extract_grupo(dataFrame, 12, 2),
+            "GRUPO": extract_grupo(dataFrame, 14, 2),
             "CARRERA": extract_carrera(dataFrame, 10, 2),
             "CODIGO_PERIODO_ESCOLAR": generate_codigo_periodo_escolar(dataFrame),
             "FECHA_ASIGNACION": fecha_asignacion,
@@ -195,13 +194,11 @@ def save_json_to_file(json_data, filename):
     except Exception as e:
         print(f"Error al guardar el archivo JSON: {e}")
 
-def getInfo(url, fileName, asignationDate, subjectId):
+def getInfo(url, asignationDate, subjectId):
     global root
-    global filename
     global fecha_asignacion
     global clave_materia
     root = url
-    filename = fileName
     fecha_asignacion = asignationDate
     clave_materia = subjectId
 
@@ -213,11 +210,11 @@ def set_params(rc_params):
     except Exception as e:
         print(f"Error en el parametro de set_params {e}")
 
-def run(url, fileName, asignationDate, subjectId):
+def run(url, asignationDate, subjectId):
     """
     Inicia el programa obteniendo el archivo Excel
     """
-    getInfo(url, fileName, asignationDate, subjectId)
+    getInfo(url, asignationDate, subjectId)
     dataFrame = load_excel_file()
     materias = extract_materias(dataFrame)
     matriculas, cdef = extract_matriculas_and_calificaciones(dataFrame)

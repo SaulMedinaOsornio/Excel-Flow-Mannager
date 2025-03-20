@@ -17,6 +17,7 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"../images")
 WINDOW_LENGTH = 1100
 WINDOW_HIGH = 700
 file_path = ""
+output_file = ""
 
 # ID | Fila | Column
 default_params = [
@@ -59,7 +60,7 @@ def ex():
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: safe_run(entry_1, entry_2, entry_3, entry_4, entry_5, entry_6, entry_7, entry_8, entry_9),
+        command=lambda: safe_run(entry_1, entry_2, entry_3, entry_4, entry_5, entry_6, entry_7, entry_8),
         relief="flat"
     )
     button_1.place(
@@ -80,7 +81,7 @@ def ex():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: generator.generate(),
+        command=lambda: generator.generate(output_file, entry_9.get()),
         relief="flat"
     )
     button_2.place(
@@ -119,7 +120,7 @@ def ex():
         image=button_image_4,
         borderwidth=0,
         highlightthickness=0,
-        command=open_file_explorer,  # Llama a la función cuando se hace clic
+        command=get_output_file,  # Llama a la función cuando se hace clic
         relief="flat"
     )
 
@@ -517,6 +518,9 @@ def open_file_explorer():
     global file_path
     file_path = filedialog.askopenfilename()
 
+def get_output_file():
+    global output_file
+    output_file = filedialog.askdirectory()
 
 def centrar_ventana(ventana, ancho, alto):
     # Obtener el ancho y alto de la pantalla
@@ -585,12 +589,11 @@ def get_params():
 
     return modificado
 
-
-def safe_run(entry_1, entry_2, entry_3, entry_4, entry_5, entry_6, entry_7, entry_8, entry_9):
+def safe_run(entry_1, entry_2, entry_3, entry_4, entry_5, entry_6, entry_7, entry_8):
     try:
 
         if file_path.strip():
-            excelFormat.run(file_path, entry_9.get(), entry_8.get(), entry_7.get())
+            excelFormat.run(file_path, entry_8.get(), entry_7.get())
             show_info(entry_1, entry_2, entry_3, entry_4, entry_5, entry_6)
             messagebox.showinfo("Done", "¡The file was successfully opened!")
         else:

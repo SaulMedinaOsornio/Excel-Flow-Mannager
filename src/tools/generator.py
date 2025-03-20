@@ -13,8 +13,10 @@ def destroyInfo():
     except Exception as e:
         print(f"Error al vaciar el archivo JSON: {e}")
 
-def generate():
-    output_file = "salida.xlsx"
+
+def generate(output_file, filename):
+    output_file = f"{output_file}/{filename}.xlsx"
+    print(f"Generando el archivo {output_file}")
     with open("../output/data.json", "r", encoding="utf-8") as file:
         data = json.load(file)
 
@@ -68,6 +70,11 @@ def generate():
     fill_yellow = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
     for cell in ws["B"]:  # Columna B es la de calificaciones
         cell.fill = fill_yellow
+
+    # Aplicar color azul a la primera fila (A1:I1)
+    fill_blue = PatternFill(start_color="9BC2E6", end_color="9BC2E6", fill_type="solid")
+    for col in range(1, 10):  # Columnas A a I (1 a 9)
+        ws.cell(row=1, column=col).fill = fill_blue
 
     # Guardar cambios
     wb.save(output_file)
