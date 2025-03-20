@@ -31,6 +31,9 @@ default_params = [
 
 def ex():
     window = Tk()
+    window.title("Excel Flow Manager")
+    icono = PhotoImage(file="../images/icono.png")
+    window.iconphoto(True, icono)
     window.geometry("1100x700")
     window.configure(bg="#FFFFFF")
 
