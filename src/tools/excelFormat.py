@@ -38,6 +38,7 @@ def load_excel_file():
         print(f"Error al cargar el archivo: {e}")
         return None
 
+
 def extract_materias(dataFrame):
     """
     Extrae las materias desde el archivo Excel.
@@ -71,14 +72,17 @@ def extract_materias(dataFrame):
         num_materias = 0
         return None
 
+
 def extract_cuatrimestre_cursado(dataFrame):
     codigo_periodo_escolar = generate_codigo_periodo_escolar(dataFrame)
     parts = codigo_periodo_escolar.split("-")
     return int(parts[1])
 
+
 def extract_nivel_educativo(dataFrame):
     cuatrimestre = extract_cuatrimestre(dataFrame, 12, 2)
     return int(cuatrimestre[(len(cuatrimestre)) - 1:])
+
 
 def extract_matriculas_and_calificaciones(dataFrame, start_row=20, matricula_column='B'):
     """
@@ -117,13 +121,16 @@ def extract_matriculas_and_calificaciones(dataFrame, start_row=20, matricula_col
 
     return matriculas, cdef
 
+
 def extract_cuatrimestre(dataFrame, fila, columna):
     cuatrimestre = dataFrame.iloc[fila, columna]
     return cuatrimestre
 
+
 def extract_grupo(dataFrame, fila, columna):
     grupo = dataFrame.iloc[fila, columna]
     return grupo
+
 
 def generate_codigo_periodo_escolar(dataFrame):
     cuatrimestre = extract_cuatrimestre(dataFrame, 12, 2)
@@ -138,9 +145,11 @@ def generate_codigo_periodo_escolar(dataFrame):
     codigo_periodo_escolar = anioCurso + "-" + str(periodo) + "-" + nivel_educativo
     return codigo_periodo_escolar
 
+
 def extract_carrera(dataFrame, fila, columna):
     carrera = dataFrame.iloc[fila, columna]
     return carrera
+
 
 def create_json(matriculas, cdef, materias, dataFrame):
     """
@@ -167,17 +176,28 @@ def create_json(matriculas, cdef, materias, dataFrame):
             "MATRICULA": matriculas[i],
             "MATERIAS": []
         }
+        # Verificar que clave_materia tenga al menos 3 caracteres
+        if len(clave_materia) < 3:
+            raise ValueError(
+                f"La clave_materia '{clave_materia}' no tiene suficientes caracteres para extraer los últimos 3 dígitos.")
+
+        clave_trim = clave_materia[:-3]
+        last_numbers = int(clave_materia[-3:])
 
         for j in range(len(materias)):
+            nueva_clave_materia = f"{clave_trim}{last_numbers:03d}"
+
             estudiante["MATERIAS"].append({
                 "MATERIA": materias[j],
-                "CDEF": cdef[i][j],  # Calificación Definitiva
-                "CLAVE_MATERIA": clave_materia
+                "CDEF": cdef[i][j],
+                "CLAVE_MATERIA": nueva_clave_materia
             })
+            last_numbers += 1
 
         data["ESTUDIANTES"].append(estudiante)
 
     return data
+
 
 def save_json_to_file(json_data, filename):
     """
@@ -194,6 +214,7 @@ def save_json_to_file(json_data, filename):
     except Exception as e:
         print(f"Error al guardar el archivo JSON: {e}")
 
+
 def getInfo(url, asignationDate, subjectId):
     global root
     global fecha_asignacion
@@ -202,6 +223,7 @@ def getInfo(url, asignationDate, subjectId):
     fecha_asignacion = asignationDate
     clave_materia = subjectId
 
+
 def set_params(rc_params):
     global set_rc
     try:
@@ -209,6 +231,7 @@ def set_params(rc_params):
         print(set_rc)
     except Exception as e:
         print(f"Error en el parametro de set_params {e}")
+
 
 def run(url, asignationDate, subjectId):
     """
