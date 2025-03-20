@@ -1,12 +1,20 @@
 import json
 import pandas as pd
-import os
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill, Alignment
 
+def destroyInfo():
+    ruta_json = "../output/data.json"
+
+    try:
+        with open(ruta_json, 'w', encoding='utf-8') as archivo:
+            json.dump({}, archivo, indent=4)
+        print("El contenido de data.json ha sido vaciado correctamente.")
+    except Exception as e:
+        print(f"Error al vaciar el archivo JSON: {e}")
+
 def generate():
     output_file = "salida.xlsx"
-    # Cargar datos desde el archivo JSON
     with open("../output/data.json", "r", encoding="utf-8") as file:
         data = json.load(file)
 
@@ -63,5 +71,5 @@ def generate():
 
     # Guardar cambios
     wb.save(output_file)
-
     print(f"Archivo Excel generado y formateado exitosamente: {output_file}")
+    destroyInfo()
